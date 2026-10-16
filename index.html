@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kewen — Chọn bài khóa</title>
+<style>
+:root{--c:#c0392b;--bg:#fff8ee;--ink:#2d2a26}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:#fff;box-shadow:0 1px 4px #0002;padding:16px;position:sticky;top:0;z-index:10}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+h1{margin:0;color:var(--c);font-size:28px}
+.sub{color:#777;margin:4px 0 12px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+input,select{font-size:16px;padding:8px 12px;border:2px solid #ddd;border-radius:8px;background:#fff}
+input{flex:1;min-width:200px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;padding:20px 0 40px}
+.card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 16px #0002;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:8px;border-top:6px solid var(--c)}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px #0003}
+.badge{display:inline-block;background:#fde4ec;color:var(--c);font-weight:bold;font-size:13px;padding:2px 10px;border-radius:20px;width:fit-content}
+.zh{font-size:24px;font-weight:bold}
+.vi{color:#555}
+.tags{font-size:13px;color:#888}
+.btn{background:var(--c);color:#fff;padding:8px 16px;border-radius:8px;text-align:center;margin-top:auto}
+.empty{background:#fff;border-radius:12px;padding:24px;text-align:center;color:#777}
+footer{text-align:center;color:#999;font-size:13px;padding:24px}
+code{background:#eee;padding:2px 6px;border-radius:4px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>📚 Kewen — Chọn bài khóa</h1>
+    <p class="sub">Chọn 1 bài bên dưới để bắt đầu học. Thêm bài mới: copy file vào <code>HSK1/</code> rồi thêm 1 dòng vào <code>lessons.json</code>.</p>
+    <div class="toolbar">
+      <input id="q" placeholder="🔍 Tìm bài... (vd: Bài 7, 吃, nhà ăn)" oninput="render()">
+      <select id="level" onchange="render()">
+        <option value="">Tất cả cấp độ</option>
+      </select>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="grid" class="grid"></div>
+  <div id="empty" class="empty" style="display:none">Không tìm thấy bài nào.</div>
+</main>
+
+<footer>Deploy bằng GitHub Pages từ nhánh <code>main</code> / thư mục <code>root</code>.</footer>
+
+<script>
+let LESSONS = [];
+async function load() {
+  try {
+    const r = await fetch('lessons.json', {cache: 'no-store'});
+    LESSONS = await r.json();
+  } catch(e) {
+    LESSONS = [];
+  }
+  const levels = [...new Set(LESSONS.map(l => l.level))];
+  const sel = document.getElementById('level');
+  levels.forEach(lv => {
+    const o = document.createElement('option');
+    o.value = lv; o.textContent = lv;
+    sel.appendChild(o);
+  });
+  render();
+}
+function render() {
+  const q = (document.getElementById('q').value || '').toLowerCase().trim();
+  const lv = document.getElementById('level').value;
+  const grid = document.getElementById('grid');
+  const list = LESSONS.filter(l => {
+    if (lv && l.level !== lv) return false;
+    if (!q) return true;
+    return [l.title, l.subtitle, l.desc, l.level, 'bài ' + l.lesson, ...(l.tags||[])].join(' ').toLowerCase().includes(q);
+  }).sort((a,b) => a.lesson - b.lesson);
+  grid.innerHTML = list.map(l => `
+    <a class="card" href="${l.path}">
+      <span class="badge">${l.level} · Bài ${l.lesson}</span>
+      <div class="zh">${l.title}</div>
+      <div class="vi">${l.subtitle || ''}</div>
+      <div class="tags">${l.desc || ''}${l.tags ? '<br>#' + l.tags.join(' #') : ''}</div>
+      <div class="btn">Học ngay →</div>
+    </a>`).join('');
+  document.getElementById('empty').style.display = list.length ? 'none' : 'block';
+}
+load();
+</script>
+</body>
+</html>
