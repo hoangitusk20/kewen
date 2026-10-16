@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第七课：你吃什么</title>
+<style>
+:root{--c:#c0392b;--ink:#2d2a26}
+*{box-sizing:border-box}body{margin:0;font-family:"Noto Sans SC","Microsoft YaHei",sans-serif;background:#fff8ee;color:var(--ink);height:100vh;display:flex;flex-direction:column}
+#bar{display:flex;gap:12px;align-items:center;padding:8px 16px;background:#fff;box-shadow:0 1px 4px #0002;flex-wrap:wrap}
+button,.btn{border:0;background:var(--c);color:#fff;padding:8px 16px;border-radius:8px;font-size:16px;cursor:pointer;text-decoration:none;display:inline-block;margin:4px}
+button:disabled{opacity:.3}#prog{flex:1;height:6px;background:#eee;border-radius:3px;min-width:80px}#prog i{display:block;height:100%;background:var(--c);border-radius:3px}
+#s{flex:1;overflow:auto;padding:20px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.w{margin:auto;width:100%;display:flex;flex-direction:column;align-items:center}.w.tp{margin:0 auto;max-width:860px}
+h1{font-size:56px;margin:8px;color:var(--c)}h2{margin:4px 0 12px}.z{font-size:30px;line-height:1.35}.p{font-size:16px;color:#777;min-height:4px}.vi{font-size:16px;color:#555}
+body.nopy .p{display:none}body.novi .b .vi{display:none}
+.big .z{font-size:68px}.big .p{font-size:24px}
+.row{display:flex;width:100%;margin:6px 0}.row.R{justify-content:flex-end}
+.b{background:#e3f2fd;border-radius:16px;padding:8px 16px;text-align:left;cursor:pointer;max-width:85%}.R .b{background:#fde4ec}.b small{font-weight:bold;color:var(--c)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:8px}.chip{background:#fff;border:2px solid var(--c);border-radius:10px;padding:4px 14px;cursor:pointer;user-select:none}.chip.on{background:var(--c);color:#fff}.chip .z{font-size:24px}.chip .p{font-size:13px}.chip.on .p{color:#fff}
+.slot{border-bottom:3px solid var(--c);color:var(--c);padding:0 8px;min-width:50px;display:inline-block}
+.drop{background:#fff;border:2px dashed var(--c);border-radius:8px;min-height:40px}
+svg{width:190px;height:190px}.card{background:#fff;border-radius:20px;padding:16px 36px;box-shadow:0 4px 16px #0002;margin:6px;width:100%}.w:not(.tp) .card{width:auto}
+.ok{background:#c8f5d0!important;color:#2d2a26!important}.no{background:#ffd0d0!important;color:#2d2a26!important}
+iframe{width:min(90vw,760px);aspect-ratio:16/9;border:0;border-radius:12px}
+input.hw{width:100%;font-size:22px;padding:6px;border:2px solid #ccc;border-radius:8px}
+</style></head><body>
+<div id="bar"><button id="pv" onclick="go(-1)">◀</button><button id="nx" onclick="go(1)">Next ▶</button>
+<div id="prog"><i></i></div>
+<label><input type="checkbox" id="py" checked onchange="document.body.classList.toggle('nopy',!this.checked)"> Pinyin</label>
+<label><input type="checkbox" checked onchange="document.body.classList.toggle('novi',!this.checked)"> Tiếng Việt (hội thoại)</label>
+<button onclick="trad=!trad;r()" id="tb">简 ⇄ 繁</button></div>
+<div id="s"></div>
+<script>
+let trad=0,i=0,rv=0;
+const M="饭飯馒饅头頭么麼个個儿兒这這汤湯鸡雞饺餃面麵条條吗嗎课課几幾玛瑪丽麗麦麥红紅烧燒浆漿乐樂",MM={};for(let k=0;k<M.length;k+=2)MM[M[k]]=M[k+1];
+const N=s=>s.replace(/./g,c=>MM[c]||c),T=s=>trad?N(s):s,shuf=a=>[...a].sort(()=>Math.random()-.5);
+const z=(s,p)=>`<div class=z>${T(s)}</div><div class=p>${p||""}</div>`;
+const say=s=>{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(s);u.lang="zh-CN";u.rate=.8;speechSynthesis.speak(u)};
+const sp=s=>`<button onclick="say('${s}')">🔊</button>`;
+const Z=a=>a.map(x=>x[0]).join(""),P=a=>a.map(x=>x[1]).filter(Boolean).join(" ").replace(/ ([.,?!])/g,"$1").replace(/(^|[.?!] )(.)/g,(m,a,b)=>a+b.toUpperCase());
+const B='<path d="M12 55h76a38 32 0 0 1-76 0z" fill="#e76f51"/>',PL='<ellipse cx=50 cy=62 rx=42 ry=24 fill=#fff stroke=#999 />';
+const S={
+noon:'<circle cx=50 cy=50 r=22 fill=#ffd23f /><path d="M50 8v14M50 78v14M8 50h14M78 50h14M20 20l10 10M70 70l10 10M80 20L70 30M30 70L20 80" stroke=#ffb703 stroke-width=5 />',
+eat:B+'<path d="M40 50L70 10M52 50L82 14" stroke=#8d5524 stroke-width=4 />',
+meal:PL+'<circle cx=38 cy=56 r=10 fill=#8bc34a /><circle cx=60 cy=58 r=12 fill=#e76f51 /><circle cx=50 cy=46 r=7 fill=#ffd23f />',
+canteen:'<path d="M8 45L50 12l42 33z" fill=#c0392b /><rect x=16 y=45 width=68 height=42 fill=#ffe0b2 /><rect x=42 y=60 width=16 height=27 fill=#8d5524 /><rect x=22 y=54 width=12 height=12 fill=#90caf9 /><rect x=66 y=54 width=12 height=12 fill=#90caf9 />',
+mantou:'<path d="M10 78a40 46 0 0 1 80 0z" fill=#fff3d6 stroke=#d9b56b stroke-width=3 /><path d="M35 50q15-12 30 0" stroke=#e6cf9b stroke-width=3 fill=none />',
+rice:B+'<path d="M22 55a28 28 0 0 1 56 0z" fill=#fff stroke=#bbb stroke-width=2 />',
+mi:'<g fill=#fff3d6 stroke=#c9a55a ><ellipse cx=30 cy=35 rx=7 ry=14 transform="rotate(30 30 35)" /><ellipse cx=55 cy=30 rx=7 ry=14 transform="rotate(-20 55 30)" /><ellipse cx=72 cy=55 rx=7 ry=14 transform="rotate(50 72 55)" /><ellipse cx=40 cy=65 rx=7 ry=14 transform="rotate(-40 40 65)" /><ellipse cx=60 cy=78 rx=7 ry=14 transform="rotate(10 60 78)" /></g>',
+want:'<path d="M30 80V45M42 80V28M54 80V26M66 80V40" stroke=#f4a261 stroke-width=11 stroke-linecap=round /><rect x=26 y=62 width=48 height=26 rx=12 fill=#f4a261 />',
+ge:'<rect x=28 y=28 width=44 height=44 rx=8 fill=#8ecae6 /><text x=50 y=62 font-size=36 text-anchor=middle fill=#fff>1</text>',
+wan:B,
+egg:'<ellipse cx=50 cy=55 rx=38 ry=30 fill=#fff stroke=#ccc /><circle cx=50 cy=52 r=14 fill=#ffb703 />',
+soup:B+'<path d="M14 55h72" stroke=#ffd23f stroke-width=6 /><path d="M35 40q-8-12 0-22M55 40q-8-12 0-22M72 40q-8-12 0-22" stroke=#bbb stroke-width=4 fill=none />',
+beer:'<rect x=22 y=35 width=44 height=55 rx=5 fill=#ffb703 /><path d="M66 45h12a8 8 0 0 1 8 8v14a8 8 0 0 1-8 8H66" stroke=#8d6e00 stroke-width=6 fill=none /><g fill=#fff><circle cx=30 cy=32 r=10 /><circle cx=44 cy=26 r=12 /><circle cx=58 cy=32 r=10 /></g>',
+jiaozi:'<path d="M10 66Q50 0 90 66Q50 88 10 66z" fill=#fff3d6 stroke=#d9b56b stroke-width=3 /><path d="M24 50l6 8M38 40l5 10M52 38l3 11M66 42l-1 10" stroke=#d9b56b stroke-width=3 />',
+baozi:'<path d="M10 78a40 48 0 0 1 80 0z" fill=#fff stroke=#d9b56b stroke-width=3 /><path d="M50 30l0 14M38 34l6 12M62 34l-6 12M28 44l10 10M72 44l-10 10" stroke=#d9b56b stroke-width=3 />',
+noodle:B+'<g stroke=#f4d58d stroke-width=4 fill=none><path d="M20 55q10-35 20 0M35 55q10-45 20 0M50 55q10-35 20 0M65 55q10-30 18 0" /></g>',
+cola:'<rect x=30 y=15 width=40 height=75 rx=8 fill=#c0392b /><path d="M30 45q10-10 20 0t20 0" stroke=#fff stroke-width=5 fill=none /><rect x=30 y=15 width=40 height=10 fill=#999 />',
+tea:'<path d="M18 40h52v20a26 26 0 0 1-52 0z" fill=#fff stroke=#2e7d32 stroke-width=4 /><path d="M70 45h8a8 8 0 0 1 0 18h-10" stroke=#2e7d32 stroke-width=4 fill=none /><path d="M20 42h48" stroke=#8bc34a stroke-width=6 /><path d="M35 30q-6-10 0-18M52 30q-6-10 0-18" stroke=#bbb stroke-width=4 fill=none />',
+soy:'<path d="M28 25h44l-6 62H34z" fill=#fff stroke=#bbb stroke-width=3 /><path d="M31 45h38" stroke=#f5e9c8 stroke-width=14 />',
+cf:PL+'<ellipse cx=50 cy=56 rx=30 ry=15 fill=#ffd54f /><circle cx=42 cy=54 r=5 fill=#8bc34a /><circle cx=58 cy=58 r=5 fill=#e76f51 />',
+hs:PL+'<g fill=#8b3a1a><rect x=28 y=42 width=18 height=16 rx=3 /><rect x=50 y=40 width=18 height=16 rx=3 /><rect x=40 y=58 width=18 height=16 rx=3 /></g>',
+cai:'<g fill=#43a047><ellipse cx=35 cy=50 rx=14 ry=30 transform="rotate(-25 35 50)" /><ellipse cx=65 cy=50 rx=14 ry=30 transform="rotate(25 65 50)" /><ellipse cx=50 cy=45 rx=14 ry=34 /></g><path d="M50 85V40" stroke=#c8e6c9 stroke-width=3 />'};
+const V=[
+["中午","zhōngwǔ","buổi trưa","我中午吃饭。","Wǒ zhōngwǔ chī fàn.","Trưa tôi ăn cơm.","noon"],
+["吃","chī","ăn","我吃米饭。","Wǒ chī mǐfàn.","Tôi ăn cơm.","eat"],
+["饭","fàn","cơm, bữa ăn","我在食堂吃饭。","Wǒ zài shítáng chī fàn.","Tôi ăn cơm ở nhà ăn.","meal"],
+["食堂","shítáng","nhà ăn","我去食堂。","Wǒ qù shítáng.","Tôi đi nhà ăn.","canteen"],
+["馒头","mántou","bánh bao không nhân","我吃馒头。","Wǒ chī mántou.","Tôi ăn mantou.","mantou"],
+["米饭","mǐfàn","cơm (gạo)","我要米饭。","Wǒ yào mǐfàn.","Tôi muốn cơm.","rice"],
+["米","mǐ","gạo","这是米。","Zhè shì mǐ.","Đây là gạo.","mi"],
+["要","yào","muốn, cần","我要一个包子。","Wǒ yào yí ge bāozi.","Tôi muốn một cái bánh bao.","want"],
+["个","gè","cái (lượng từ)","一个馒头。","Yí ge mántou.","Một cái mantou.","ge"],
+["碗","wǎn","bát; lượng từ 'bát'","一碗米饭。","Yì wǎn mǐfàn.","Một bát cơm.","wan"],
+["鸡蛋","jīdàn","trứng gà","我吃鸡蛋。","Wǒ chī jīdàn.","Tôi ăn trứng.","egg"],
+["汤","tāng","canh, súp","我喝汤。","Wǒ hē tāng.","Tôi uống canh.","soup"],
+["啤酒","píjiǔ","bia","我喝啤酒。","Wǒ hē píjiǔ.","Tôi uống bia.","beer"],
+["饺子","jiǎozi","sủi cảo","这是饺子。","Zhè shì jiǎozi.","Đây là sủi cảo.","jiaozi"],
+["包子","bāozi","bánh bao nhân","我吃包子。","Wǒ chī bāozi.","Tôi ăn bánh bao.","baozi"],
+["面条","miàntiáo","mì sợi","我吃面条。","Wǒ chī miàntiáo.","Tôi ăn mì.","noodle"],
+["可口可乐","kěkǒu kělè","Coca-Cola (mở rộng)","我喝可口可乐。","Wǒ hē kěkǒu kělè.","Tôi uống Coca.","cola"],
+["茶","chá","trà (mở rộng)","我喝茶。","Wǒ hē chá.","Tôi uống trà.","tea"],
+["豆浆","dòujiāng","sữa đậu nành (mở rộng)","他喝豆浆。","Tā hē dòujiāng.","Anh ấy uống sữa đậu nành.","soy"],
+["炒饭","chǎofàn","cơm rang (mở rộng)","我吃炒饭。","Wǒ chī chǎofàn.","Tôi ăn cơm rang.","cf"],
+["红烧肉","hóngshāoròu","thịt kho tàu (mở rộng)","我要红烧肉。","Wǒ yào hóngshāoròu.","Tôi muốn thịt kho.","hs"],
+["青菜","qīngcài","rau xanh (mở rộng)","我吃青菜。","Wǒ chī qīngcài.","Tôi ăn rau xanh.","cai"]];
+const PY={喝:"hē",去:"qù",什么:"shénme"};V.forEach(v=>PY[v[0]]=v[1]);
+// Hội thoại: [người nói, [[hán,pinyin,1=chỗ trống]...], tiếng Việt]
+const D=[
+["麦克",[["中午","zhōngwǔ",1],["你去哪儿吃饭？","nǐ qù nǎr chī fàn?"]],"Trưa nay bạn đi đâu ăn cơm?"],
+["玛丽",[["我去","wǒ qù"],["食堂","shítáng",1],["。","."]],"Tôi đi nhà ăn."],
+["麦克",[["你吃什么？","nǐ chī shénme?"]],"Bạn ăn gì?"],
+["玛丽",[["我吃","wǒ chī"],["馒头","mántou",1],["。","."]],"Tôi ăn mantou."],
+["麦克",[["你要几个？","nǐ yào jǐ ge?"]],"Bạn lấy mấy cái?"],
+["玛丽",[["一","yí",1],["个。","ge."],["你吃吗？","nǐ chī ma?"]],"Một cái. Bạn ăn không?"],
+["麦克",[["不吃","bù chī",1],["，",","],["我吃","wǒ chī"],["米饭","mǐfàn",1],["。","."],["你喝什么？","nǐ hē shénme?"]],"Không ăn, tôi ăn cơm. Bạn uống gì?"],
+["玛丽",[["我要","wǒ yào"],["一碗","yì wǎn",1],["鸡蛋汤","jīdàn tāng",1],["。","."],["你喝吗？","nǐ hē ma?"]],"Tôi lấy một bát canh trứng. Bạn uống không?"],
+["麦克",[["不喝，我喝","bù hē, wǒ hē"],["啤酒","píjiǔ",1],["。","."]],"Không uống, tôi uống bia."],
+["玛丽",[["这些","zhèxiē",1],["是什么？","shì shénme?"]],"Những thứ này là gì?"],
+["麦克",[["这是","zhè shì"],["饺子","jiǎozi",1],["，",","],["这是","zhè shì"],["包子","bāozi",1],["，",","],["那是","nà shì"],["面条","miàntiáo",1],["。","."]],"Đây là sủi cảo, đây là bánh bao, kia là mì."]];
+const bub=(d,body)=>`<div class="row ${d[0]=='玛丽'?'R':''}"><div class=b><small>${T(d[0])}</small> <span onclick="say('${Z(d[1])}')">🔊</span>${body}<div class=vi>${d[2]}</div></div></div>`;
+const p1=()=>`<h2>${T("练习")} 1 · Hội thoại có chỗ trống</h2><p class=vi>Thay ___ bằng từ vựng của em rồi đọc cùng bạn. Có thể xem đáp án gốc.</p><button onclick="rv=!rv;r()">${rv?"Ẩn":"Hiện"} đáp án gốc</button><div style="width:100%">${D.map(d=>bub(d,`<div class=z>${d[1].map(x=>x[2]?`<span class=slot>${rv?T(x[0]):"＿＿＿"}</span>`:T(x[0])).join("")}</div><div class=p>${P(d[1].map(x=>x[2]&&!rv?["","___"]:x))}</div>`)).join("")}</div>`;
+// Luyện tập 2: [trước, pinyin trước, sau, pinyin sau, từ đúng, từ sai]
+const I2=[
+["我吃","wǒ chī","。",".","馒头 面条","啤酒 汤 食堂"],["我喝","wǒ hē","。",".","啤酒 汤 茶","饺子 米饭"],
+["你吃","nǐ chī","吗？","ma?","包子 米饭 饺子","啤酒 茶"],["你喝","nǐ hē","吗？","ma?","汤 可口可乐","馒头 食堂"],
+["我要一","wǒ yào yì","米饭。","mǐfàn.","碗","个 吃"],["我要一","wǒ yào yí","包子。","bāozi.","个","碗 吃"],
+["","","我去食堂。","wǒ qù shítáng.","中午","米饭 啤酒"],["中午你","zhōngwǔ nǐ","什么？","shénme?","吃 喝 要","米饭 食堂"],
+["这是","zhè shì","。",".","饺子 包子","吃 喝"],["我不喝","wǒ bù hē","。",".","啤酒 汤","吃 个"],
+["我不吃","wǒ bù chī","。",".","米饭 馒头","喝 碗"],["你去","nǐ qù","吃饭？","chī fàn?","食堂","啤酒 汤"],
+["我吃","wǒ chī","，你吃什么？",", nǐ chī shénme?","馒头 包子","啤酒 碗"],["他喝","tā hē","。",".","啤酒 茶 豆浆","面条 饺子"],
+["我要一碗","wǒ yào yì wǎn","。",".","汤 米饭 面条","馒头 包子"],["我要一个","wǒ yào yí ge","。",".","馒头 包子 鸡蛋","汤 米饭"],
+["这些是","zhèxiē shì","？","?","什么","个 碗"],["我","wǒ","米饭。","mǐfàn.","吃 要","喝 去"],
+["我","wǒ","啤酒。","píjiǔ.","喝 要","吃 去"],["他","tā","食堂。","shítáng.","去","吃 喝 要"]];
+let q2={i:0,sel:[],res:0,o:null};
+const full=(it,w)=>[[it[0],it[1]],[w,PY[w]||""],[it[2],it[3]]];
+const tg=w=>{if(q2.res==1)return;const k=q2.sel.indexOf(w);k<0?q2.sel.push(w):q2.sel.splice(k,1);q2.res=0;r()};
+const chk=()=>{const it=I2[q2.i],ok=it[4].split(" ");q2.res=q2.sel.length==ok.length&&ok.every(w=>q2.sel.includes(w))?1:2;r()};
+const p2=()=>{if(q2.i>=I2.length)return `<h2>🎉 Hoàn thành ${I2.length} câu!</h2><button onclick="q2={i:0,sel:[],res:0,o:null};r()">Làm lại</button>`;
+const it=I2[q2.i];q2.o=q2.o||shuf([...it[4].split(" "),...it[5].split(" ")]);
+return `<h2>${T("练习")} 2 · Chọn TẤT CẢ từ điền được (${q2.i+1}/${I2.length})</h2><div class=card><div class=z>${T(it[0])}<span class=slot>＿＿</span>${T(it[2])}</div></div>
+<div class=chips>${q2.o.map(w=>`<div class="chip ${q2.sel.includes(w)?'on':''}" onclick="tg('${w}')">${z(w,PY[w])}</div>`).join("")}</div>
+${q2.res==2?'<p style="color:#c0392b">❌ Chưa đúng — chọn đủ và chỉ chọn các từ phù hợp rồi thử lại.</p>':''}
+${q2.res==1?`<p>✅ Chính xác! Các câu hoàn chỉnh:</p>${it[4].split(" ").map(w=>{const sg=full(it,w);return `<div class=card>${sp(Z(sg))}<div class=z>${T(Z(sg))}</div><div class=p>${P(sg)}</div></div>`}).join("")}<button onclick="q2.i++;q2.sel=[];q2.res=0;q2.o=null;r()">Câu tiếp ▶</button>`:'<button onclick="chk()">Kiểm tra</button>'}`};
+// Luyện tập 3: kéo thả
+const I3=[
+["[中午]你去[哪儿][吃饭]？","[zhōngwǔ] nǐ qù [nǎr] [chī fàn]?"],
+["我去[食堂]，我[吃][馒头]。","wǒ qù [shítáng], wǒ [chī] [mántou]."],
+["你[要][几个]？我要[一个]。","nǐ [yào] [jǐ ge]? wǒ yào [yí ge]."],
+["我[不吃][米饭]，我[喝][啤酒]。","wǒ [bù chī] [mǐfàn], wǒ [hē] [píjiǔ]."],
+["我要[一碗][鸡蛋汤]，你[喝][吗]？","wǒ yào [yì wǎn] [jīdàn tāng], nǐ [hē] [ma]?"],
+["[这些]是[什么]？这是[饺子]，那是[包子]。","[zhèxiē] shì [shénme]? zhè shì [jiǎozi], nà shì [bāozi]."],
+["他[中午][不吃][饭]，他[喝][茶]。","tā [zhōngwǔ] [bù chī] [fàn], tā [hē] [chá]."],
+["你[喝][可口可乐][吗]？我[不喝]。","nǐ [hē] [kěkǒu kělè] [ma]? wǒ [bù hē]."],
+["我[要][一个][包子]，你[吃][什么]？","wǒ [yào] [yí ge] [bāozi], nǐ [chī] [shénme]?"],
+["[中午]我去[食堂][吃饭]，[不喝][啤酒]。","[zhōngwǔ] wǒ qù [shítáng] [chī fàn], [bù hē] [píjiǔ]."]];
+const pz=s=>s.split(/\[|\]/),bl=s=>pz(s).filter((_,k)=>k%2),W3=I3.map(x=>bl(x[0])),PW=I3.map(x=>bl(x[1]));
+let p3;const i3=()=>p3={pl:W3.map(w=>w.map(()=>-1)),sh:W3.map(w=>shuf(w.map((_,k)=>k))),sel:null,ck:W3.map(()=>0)};i3();
+const good=(q,b)=>{const x=p3.pl[q][b];return x>=0&&W3[q][x]==W3[q][b]},solved=q=>p3.ck[q]&&W3[q].every((_,b)=>good(q,b));
+const put=(q,b,ix)=>{if(solved(q))return;p3.pl[q]=p3.pl[q].map(x=>x==ix?-1:x);p3.pl[q][b]=ix;p3.ck[q]=0};
+const dr=(e,q,b)=>{e.preventDefault();const[qq,ix]=e.dataTransfer.getData("text").split(",").map(Number);if(qq==q){put(q,b,ix);r()}};
+const cs=(q,ix)=>{p3.sel={q,ix};r()};
+const bk=(q,b)=>{if(solved(q))return;if(p3.sel&&p3.sel.q==q){put(q,b,p3.sel.ix);p3.sel=null}else{p3.pl[q][b]=-1;p3.ck[q]=0}r()};
+const ck=q=>{if(p3.pl[q].includes(-1)){alert("Hãy điền hết các ô trống!");return}p3.ck[q]=1;r()};
+const p3f=()=>{const sc=I3.filter((_,q)=>solved(q)).length;const rows=I3.map((it,q)=>{let b=0;const parts=pz(it[0]).map((t,k)=>{if(k%2==0)return T(t);const x=p3.pl[q][b],cur=b++;return `<span class="slot drop ${p3.ck[q]?(good(q,cur)?'ok':'no'):''}" ondragover="event.preventDefault()" ondrop="dr(event,${q},${cur})" onclick="bk(${q},${cur})">${x>=0?T(W3[q][x]):"＿＿＿"}</span>`}).join("");
+const used=p3.pl[q];return `<div class=card><div class=z>${parts}</div>${solved(q)?`<div class=p>${P([["",pz(it[1]).join("")]])}</div>${sp(pz(it[0]).join(""))} ✅`:`<div class=chips>${p3.sh[q].filter(ix=>!used.includes(ix)).map(ix=>`<div class="chip ${p3.sel&&p3.sel.q==q&&p3.sel.ix==ix?'on':''}" draggable=true ondragstart="event.dataTransfer.setData('text','${q},${ix}')" onclick="cs(${q},${ix})">${z(W3[q][ix],PW[q][ix])}</div>`).join("")}</div><button onclick="ck(${q})">Kiểm tra</button>${p3.ck[q]?' <span style="color:#c0392b">❌ Chưa đúng, bấm ô đỏ để bỏ từ rồi chọn lại.</span>':''}`}</div>`}).join("");
+return `<h2>${T("练习")} 3 · Kéo thả từ vào chỗ trống</h2><p class=vi>Kéo (hoặc bấm chọn từ rồi bấm vào ô trống). Điền xong bấm "Kiểm tra" ở từng câu.</p>${rows}<h3>Đúng ${sc}/${I3.length} câu</h3><button onclick="i3();r()">Làm lại</button>`};
+// Bài tập về nhà
+const H=[["Trưa nay bạn đi đâu ăn cơm?","中午你去哪儿吃饭？","Zhōngwǔ nǐ qù nǎr chī fàn?"],["Tôi đi nhà ăn.","我去食堂。","Wǒ qù shítáng."],["Bạn ăn gì?","你吃什么？","Nǐ chī shénme?"],["Tôi ăn mantou, không ăn cơm.","我吃馒头，不吃米饭。","Wǒ chī mántou, bù chī mǐfàn."],["Bạn lấy mấy cái bánh bao?","你要几个包子？","Nǐ yào jǐ ge bāozi?"],["Tôi lấy một cái.","我要一个。","Wǒ yào yí ge."],["Bạn uống bia không?","你喝啤酒吗？","Nǐ hē píjiǔ ma?"],["Tôi không uống bia, tôi uống canh.","我不喝啤酒，我喝汤。","Wǒ bù hē píjiǔ, wǒ hē tāng."],["Tôi muốn một bát canh trứng.","我要一碗鸡蛋汤。","Wǒ yào yì wǎn jīdàn tāng."],["Đây là gì? Đây là sủi cảo, kia là mì.","这是什么？这是饺子，那是面条。","Zhè shì shénme? Zhè shì jiǎozi, nà shì miàntiáo."]];
+let hw=H.map(()=>""),hs=0;
+const nm=s=>N(s.replace(/[\s，。？！,.?!]/g,""));
+const hwf=()=>`<h2>📝 Bài tập về nhà: dịch sang tiếng Trung</h2><p class=vi>Điền đủ 10 câu rồi bấm Nộp bài thì đáp án mới hiện.</p><div style="width:100%">${H.map((h,n)=>`<div class=card style="text-align:left"><b>${n+1}.</b> ${h[0]}<input class=hw ${hs?"disabled":""} value="${hw[n].replace(/"/g,"&quot;")}" oninput="hw[${n}]=this.value">${hs?`<div>${nm(hw[n])==nm(h[1])?"✅ Đúng":"❌ Chưa khớp đáp án mẫu"} ${sp(h[1])}</div>${z(h[1],h[2])}`:""}</div>`).join("")}</div>${hs?'<button onclick="hw=H.map(()=>\'\');hs=0;r()">Làm lại</button>':'<button onclick="if(hw.some(x=>!x.trim()))alert(\'Hãy điền đủ 10 câu trước khi nộp!\');else{hs=1;r()}">Nộp bài</button>'}`;
+// Trò chơi từ vựng (hữu hạn)
+let g;const mk=()=>{const a=g.q[g.k];if(a==null)return;let o=[a];while(o.length<4){const k=Math.random()*V.length|0;if(!o.includes(k))o.push(k)}g.o=shuf(o);g.d=null},ng=()=>{g={q:shuf([...V.keys()]),k:0,s:0,d:null};mk()};ng();
+const pick=j=>{if(g.d!=null)return;g.d=j;if(g.o[j]==g.q[g.k])g.s++;r()};
+const sv=k=>`<svg viewBox="0 0 100 100">${S[k]}</svg>`;
+const game=()=>{if(g.k>=V.length)return `<h2>🏁 Kết thúc! Điểm: ${g.s}/${V.length}</h2><button onclick="ng();r()">Chơi lại</button>`;const a=V[g.q[g.k]];
+return `<h2>🎮 Đoán từ ${g.k+1}/${V.length} · Điểm: ${g.s}</h2><div class=card>${sv(a[6])}<div class=vi>${a[2]} <button onclick="say('${a[0]}')">🔊 Nghe</button></div></div><div class=chips>${g.o.map((k,j)=>`<div class="chip ${g.d!=null?(k==g.q[g.k]?'ok':j==g.d?'no':''):''}" onclick="pick(${j})">${z(V[k][0],V[k][1])}</div>`).join("")}</div>${g.d!=null?'<button onclick="g.k++;mk();r()">Tiếp ▶</button>':''}`};
+const sl=[
+()=>`<h1>${T("第七课")}</h1><div class=z style="font-size:48px">${T("你吃什么")}</div><div class=p>Dì qī kè · Nǐ chī shénme</div><p class=vi>Bài 7: Bạn ăn gì?<br>课文 · 练习 · 生词 · Trò chơi · Luyện tập · Bài tập về nhà</p>`,
+()=>`<h2>${T("课文")} · Video</h2><iframe src="https://www.youtube.com/embed/claG9ikKOrc" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><a class=btn target=_blank rel=noopener href="https://www.youtube.com/watch?v=claG9ikKOrc">▶ Mở video trên YouTube</a><p class=vi>Nếu khung video báo lỗi 153 (thường do mở file trực tiếp từ ổ đĩa), hãy dùng nút trên hoặc chạy file qua http://localhost.</p>`,
+...D.map((_,n)=>()=>`<h2>${T("课文")} ${n+1}/11</h2><div style="width:100%">${D.slice(0,n+1).map(d=>bub(d,z(Z(d[1]),P(d[1])))).join("")}</div>`),
+p1,
+...V.map((v,n)=>()=>`<h2>${T("生词")} ${n+1}/${V.length}</h2><div class="card big">${sv(v[6])}${z(v[0],v[1])}<div class=vi>${v[2]} ${sp(v[0])}</div><hr>${z(v[3],v[4])}<div class=vi>${v[5]} ${sp(v[3])}</div></div>`),
+game,p2,p3f,hwf];
+const go=d=>{i=Math.max(0,Math.min(sl.length-1,i+d));r()};
+let li=-1;function r(){speechSynthesis.cancel();const st=s.scrollTop,tp=(i>=2&&i<14)||i>14+V.length;s.innerHTML=`<div class="w ${tp?'tp':''}">${sl[i]()}</div>`;s.scrollTop=i!=li?((i>=2&&i<13)?s.scrollHeight:0):st;li=i;
+document.querySelector("#prog i").style.width=(i+1)/sl.length*100+"%";pv.disabled=!i;nx.disabled=i==sl.length-1;tb.textContent=trad?"繁 → 简":"简 → 繁"}
+onkeydown=e=>{if(e.target.tagName=="INPUT")return;if(e.key=="ArrowRight")go(1);if(e.key=="ArrowLeft")go(-1)};r();
+</script></body></html>
