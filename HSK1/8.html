@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第八课：你买什么</title>
+<style>
+:root{--c:#e8590c;--d:#b34700;--g:#2f9e44;--ink:#2b2b2b}
+*{box-sizing:border-box}body{margin:0;font-family:"Noto Sans SC","Microsoft YaHei",system-ui,sans-serif;background:linear-gradient(160deg,#fff4e6,#fff 50%,#ebfbee);color:var(--ink);height:100vh;display:flex;flex-direction:column}
+#bar{display:flex;gap:12px;align-items:center;padding:8px 16px;background:#fff;box-shadow:0 2px 10px #0001;flex-wrap:wrap}
+.logo{font-weight:800;color:var(--c);font-size:18px}
+button,.btn{border:0;background:var(--c);color:#fff;padding:8px 18px;border-radius:12px;font-size:16px;cursor:pointer;text-decoration:none;display:inline-block;margin:4px;box-shadow:0 3px 0 var(--d)}
+button:active{transform:translateY(2px);box-shadow:0 1px 0 var(--d)}button:disabled{opacity:.3}
+button.g{background:var(--g);box-shadow:0 3px 0 #1e6b2d}button.s{background:#868e96;box-shadow:0 3px 0 #495057}
+#prog{flex:1;height:8px;background:#ffe8cc;border-radius:4px;min-width:80px}#prog i{display:block;height:100%;background:linear-gradient(90deg,var(--c),#fab005);border-radius:4px;transition:width .3s}
+#s{flex:1;overflow:auto;padding:20px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.w{margin:auto;width:100%;display:flex;flex-direction:column;align-items:center}.w.tp{margin:0 auto;max-width:900px}.w.in>*{animation:pop .35s both}
+@keyframes pop{from{opacity:0;transform:translateY(12px)}}
+h1{font-size:60px;margin:8px;color:var(--c)}
+h2{display:inline-block;background:var(--c);color:#fff;padding:6px 20px;border-radius:99px;font-size:19px;margin:4px 0 14px}
+.z{font-size:30px;line-height:1.35}.p{font-size:16px;color:#7a7a7a;min-height:4px}.vi{font-size:16px;color:#555}
+body.nopy .p{display:none}body.novi .b .vi{display:none}
+.card{background:#fff;border:1px solid #ffe3c2;border-radius:22px;padding:16px 30px;box-shadow:0 6px 18px #e8590c14;margin:6px;width:100%}.w:not(.tp) .card{width:auto}
+.vc{display:flex;gap:28px;align-items:center;justify-content:center;flex-wrap:wrap;max-width:880px;text-align:left;padding:24px 34px}
+.art{background:radial-gradient(circle,#fff4e6,#ffe3c2);border-radius:50%;width:230px;height:230px;display:flex;align-items:center;justify-content:center}
+.art svg{width:190px;height:190px}.vc .z{font-size:64px}.vc .p{font-size:24px}
+.tag{background:#e7f5ff;color:#1971c2;border-radius:99px;padding:2px 12px;font-size:14px}.mean{font-size:22px;font-weight:700;margin:6px 0}
+.ex{background:#fff9db;border-left:5px solid #fab005;border-radius:10px;padding:8px 14px;margin-top:8px}.ex .z{font-size:30px}.ex .p{font-size:15px}
+.row{display:flex;gap:10px;width:100%;margin:8px 0;align-items:flex-end}.row.R{flex-direction:row-reverse}
+.av{width:42px;height:42px;border-radius:50%;background:var(--c);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none}.R .av{background:var(--g)}
+.b{background:#fff3bf;border-radius:18px 18px 18px 4px;padding:8px 16px;text-align:left;max-width:80%;box-shadow:0 2px 6px #0001}.R .b{background:#d3f9d8;border-radius:18px 18px 4px 18px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:8px}.chip{background:#fff;border:2px solid var(--c);border-radius:12px;padding:4px 14px;cursor:pointer;user-select:none;box-shadow:0 2px 0 #e8590c44}.chip.on{background:var(--c);color:#fff}.chip .z{font-size:24px}.chip .p{font-size:13px}.chip.on .p{color:#fff}
+.slot{border-bottom:3px solid var(--c);color:var(--c);padding:0 8px;min-width:50px;display:inline-block}
+.drop{background:#fff;border:2px dashed var(--c);border-radius:8px;min-height:40px}
+svg{width:170px;height:170px}.ok{background:#c8f5d0!important;color:#2b2b2b!important}.no{background:#ffd0d0!important;color:#2b2b2b!important}
+iframe{width:min(90vw,760px);aspect-ratio:16/9;border:0;border-radius:16px;box-shadow:0 6px 18px #0003}
+.hw{width:100%;font-size:20px;padding:8px;border:2px solid #ddd;border-radius:10px;font-family:inherit}
+.ans{background:#ebfbee;border-radius:12px;padding:8px 14px;margin-top:8px}
+.score{display:flex;gap:20px;margin:6px}.sc{border-radius:16px;padding:6px 28px;color:#fff;font-size:18px}.sc b{display:block;font-size:40px}.sc.a{background:var(--c)}.sc.b{background:var(--g)}
+.stage{display:flex;flex-direction:column;align-items:center;min-height:250px;justify-content:center;position:relative}.stage svg{width:150px;height:150px}
+.big{font-size:80px;font-weight:800;color:var(--c)}#tm{position:absolute;right:16px;top:10px;font-size:34px;font-weight:800;color:#1971c2}
+.sty{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;width:100%}.sty .card{margin:0}
+</style></head><body>
+<div id="bar"><span class="logo">🍎 第八课</span><button id="pv" onclick="go(-1)">◀</button><button id="nx" onclick="go(1)">Next ▶</button>
+<div id="prog"><i></i></div>
+<label><input type="checkbox" id="py" checked onchange="document.body.classList.toggle('nopy',!this.checked)"> Pinyin</label>
+<label><input type="checkbox" checked onchange="document.body.classList.toggle('novi',!this.checked)"> Tiếng Việt (hội thoại)</label>
+<button onclick="trad=!trad;r()" id="tb">简 ⇄ 繁</button></div>
+<div id="s"></div>
+<script>
+let trad=0,i=0,rv=0,li=-1;
+const M="买買贵貴块塊还還别別卖賣两兩给給钱錢苹蘋么麼吗嗎几幾这這儿兒个個课課",MM={};for(let k=0;k<M.length;k+=2)MM[M[k]]=M[k+1];
+const N=s=>s.replace(/./g,c=>MM[c]||c),T=s=>trad?N(s):s,shuf=a=>[...a].sort(()=>Math.random()-.5);
+const z=(s,p)=>`<div class=z>${T(s)}</div><div class=p>${p||""}</div>`;
+const say=s=>{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(s);u.lang="zh-CN";u.rate=.8;speechSynthesis.speak(u)};
+const sp=s=>`<button class=g onclick="say('${s}')">🔊</button>`;
+const Z=a=>a.map(x=>x[0]).join(""),P=a=>a.map(x=>x[1]).filter(Boolean).join(" ").replace(/ ([.,?!])/g,"$1").replace(/(^|[.?!] )(.)/g,(m,a,b)=>a+b.toUpperCase());
+const AP='<path d="M50 30C20 20 12 60 30 80c8 8 12 6 20 6s12 2 20-6c18-20 10-60-20-50z" fill=#e53935 /><path d="M50 30q0-14 10-18" stroke=#6d4c41 stroke-width=4 fill=none /><ellipse cx=64 cy=20 rx=10 ry=5 fill=#66bb6a transform="rotate(-30 64 20)" />';
+const OR='<circle cx=50 cy=55 r=33 fill=#fb8c00 /><ellipse cx=50 cy=22 rx=9 ry=5 fill=#43a047 /><path d="M36 42q6-8 16-8" stroke=#ffcc80 stroke-width=4 fill=none />';
+const BN='<rect x=8 y=28 width=84 height=44 rx=6 fill=#81c784 stroke=#2e7d32 stroke-width=3 /><circle cx=50 cy=50 r=14 fill=#c8e6c9 /><text x=50 y=57 font-size=18 text-anchor=middle fill=#2e7d32>¥</text>';
+const COIN=(r,c,t,f)=>`<circle cx=50 cy=50 r=${r} fill=${c} stroke=#0003 stroke-width=4 /><text x=50 y=${50+f/3} font-size=${f} text-anchor=middle fill=#5d4037>${t}</text>`;
+const S={
+buy:'<rect x=25 y=38 width=50 height=48 rx=6 fill=#ff7043 /><path d="M38 38v-8a12 12 0 0 1 24 0v8" stroke=#bf360c stroke-width=5 fill=none /><circle cx=50 cy=62 r=10 fill=#ffca28 />',
+fruit:'<path d="M10 55h80l-10 32H20z" fill=#a1887f /><circle cx=30 cy=48 r=16 fill=#e53935 /><circle cx=52 cy=42 r=16 fill=#fb8c00 /><circle cx=72 cy=50 r=14 fill=#7cb342 /><circle cx=44 cy=58 r=8 fill=#8e24aa />',
+apple:AP,
+jin:'<path d="M50 20v60M25 82h50" stroke=#455a64 stroke-width=5 /><path d="M16 34h68" stroke=#455a64 stroke-width=5 /><path d="M16 34l-10 22h20zM84 34l-10 22h20z" fill=#90a4ae /><text x=50 y=14 font-size=14 text-anchor=middle fill=#455a64>500g</text>',
+kg:'<path d="M30 40q20-32 40 0" stroke=#37474f stroke-width=7 fill=none /><rect x=16 y=40 width=68 height=46 rx=10 fill=#546e7a /><text x=50 y=72 font-size=24 fill=#fff text-anchor=middle>1kg</text>',
+gui:'<path d="M12 50l32-32h42v42L54 92z" fill=#e53935 /><circle cx=70 cy=34 r=5 fill=#fff /><text x=48 y=64 font-size=26 fill=#fff text-anchor=middle>¥¥¥</text><path d="M86 20v-12M80 14l6-8 6 8" stroke=#c62828 stroke-width=4 fill=none />',
+le:'<circle cx=50 cy=50 r=38 fill=#66bb6a /><path d="M30 52l14 14 26-30" stroke=#fff stroke-width=9 fill=none stroke-linecap=round />',
+ba:'<path d="M10 18h80v50H58l-14 18V68H10z" fill=#ffd54f /><circle cx=30 cy=43 r=6 fill=#f57f17 /><circle cx=50 cy=43 r=6 fill=#f57f17 /><circle cx=70 cy=43 r=6 fill=#f57f17 />',
+dsh:'<ellipse cx=50 cy=84 rx=26 ry=8 fill=#ffca28 /><ellipse cx=50 cy=74 rx=26 ry=8 fill=#fbc02d /><ellipse cx=50 cy=64 rx=26 ry=8 fill=#ffca28 /><text x=50 y=50 font-size=48 text-anchor=middle fill=#e53935>?</text>',
+duo:'<g fill=#e53935><circle cx=25 cy=70 r=14 /><circle cx=50 cy=70 r=14 /><circle cx=75 cy=70 r=14 /><circle cx=37 cy=46 r=14 /><circle cx=62 cy=46 r=14 /><circle cx=50 cy=22 r=14 /></g>',
+shao:'<circle cx=50 cy=55 r=16 fill=#e53935 /><path d="M50 40q0-8 6-10" stroke=#6d4c41 stroke-width=3 fill=none /><rect x=8 y=82 width=84 height=4 fill=#ccc />',
+kuai:BN,jiao:COIN(30,'#cfd8dc','¥0.1',20),fen:COIN(20,'#d7ccc8','¥0.01',11),
+hai:'<circle cx=50 cy=50 r=38 fill=#42a5f5 /><path d="M50 28v44M28 50h44" stroke=#fff stroke-width=10 stroke-linecap=round />',
+bie:'<circle cx=28 cy=45 r=20 fill=#e53935 /><circle cx=72 cy=45 r=20 fill=#fb8c00 /><text x=50 y=88 font-size=26 text-anchor=middle fill=#555>≠</text>',
+orange:OR,
+zen:'<circle cx=50 cy=50 r=40 fill=#ab47bc /><text x=50 y=70 font-size=58 text-anchor=middle fill=#fff>?</text>',
+mai:'<path d="M8 40L18 12h64l10 28z" fill=#e53935 /><path d="M8 40q10 12 21 0t21 0 21 0 21 0z" fill=#fff /><rect x=14 y=62 width=72 height=8 fill=#8d6e63 /><rect x=20 y=70 width=6 height=20 fill=#6d4c41 /><rect x=74 y=70 width=6 height=20 fill=#6d4c41 /><circle cx=36 cy=54 r=8 fill=#e53935 /><circle cx=56 cy=54 r=8 fill=#fb8c00 />',
+liang:'<g fill=#e53935><circle cx=30 cy=62 r=20 /><circle cx=70 cy=62 r=20 /></g><text x=50 y=28 font-size=32 text-anchor=middle fill=#1971c2>2</text>',
+gong:'<circle cx=22 cy=38 r=13 fill=#e53935 /><circle cx=50 cy=38 r=13 fill=#fb8c00 /><circle cx=78 cy=38 r=13 fill=#66bb6a /><path d="M12 58q38 24 76 0" stroke=#455a64 stroke-width=4 fill=none /><text x=50 y=90 font-size=24 text-anchor=middle fill=#455a64>Σ</text>',
+gei:'<circle cx=50 cy=22 r=14 fill=#ffca28 stroke=#f9a825 stroke-width=3 /><path d="M50 40v14M44 48l6 8 6-8" stroke=#e53935 stroke-width=4 fill=none /><path d="M22 90V70M36 90V62M50 90V60M64 90V66" stroke=#f4a261 stroke-width=10 stroke-linecap=round /><rect x=16 y=78 width=54 height=14 rx=7 fill=#f4a261 />',
+zhao:'<circle cx=32 cy=64 r=16 fill=#ffca28 /><circle cx=58 cy=72 r=14 fill=#cfd8dc /><path d="M84 40q-30-34-66 0" stroke=#e53935 stroke-width=5 fill=none /><path d="M16 36l-2 14 12-6" stroke=#e53935 stroke-width=5 fill=none />'};
+// [hán, pinyin, từ loại, nghĩa, ví dụ, pinyin vd, nghĩa vd, svg]
+const V=[
+["买","mǎi","Động từ","Mua","我买三斤橘子。","Wǒ mǎi sān jīn júzi.","Tôi mua ba cân quýt.","buy"],
+["水果","shuǐguǒ","Danh từ","Trái cây","这是水果。","Zhè shì shuǐguǒ.","Đây là trái cây.","fruit"],
+["苹果","píngguǒ","Danh từ","Táo","我要苹果。","Wǒ yào píngguǒ.","Tôi muốn táo.","apple"],
+["斤","jīn","Lượng từ","Cân (0,5 kg)","我买两斤苹果。","Wǒ mǎi liǎng jīn píngguǒ.","Tôi mua hai cân táo.","jin"],
+["公斤","gōngjīn","Lượng từ","Kilôgam (kg)","一公斤是两斤。","Yì gōngjīn shì liǎng jīn.","1 kg là 2 cân.","kg"],
+["贵","guì","Tính từ","Đắt","苹果很贵。","Píngguǒ hěn guì.","Táo rất đắt.","gui"],
+["了","le","Trợ từ","Trợ từ biểu thị thay đổi / đã xảy ra","这个太贵了！","Zhège tài guì le!","Cái này đắt quá!","le"],
+["吧","ba","Trợ từ","Cuối câu: đề nghị, gợi ý","三块吧。","Sān kuài ba.","Ba đồng nhé.","ba"],
+["多少","duōshao","Đại từ","Bao nhiêu","这个多少钱？","Zhège duōshao qián?","Cái này bao nhiêu tiền?","dsh"],
+["多","duō","Tính từ","Nhiều","苹果很多。","Píngguǒ hěn duō.","Táo rất nhiều.","duo"],
+["少","shǎo","Tính từ","Ít","橘子很少。","Júzi hěn shǎo.","Quýt rất ít.","shao"],
+["块（元）","kuài (yuán)","Lượng từ","Đồng (块 là khẩu ngữ)","一斤三块。","Yì jīn sān kuài.","Một cân ba đồng.","kuai"],
+["角（毛）","jiǎo (máo)","Lượng từ","Hào = 1/10 đồng","这个五毛。","Zhège wǔ máo.","Cái này năm hào.","jiao"],
+["分","fēn","Lượng từ","Xu = 1/100 đồng","这个五分钱。","Zhège wǔ fēn qián.","Cái này năm xu.","fen"],
+["还","hái","Phó từ","Còn, vẫn, thêm nữa","我还要橘子。","Wǒ hái yào júzi.","Tôi còn muốn quýt.","hai"],
+["别的","biéde","Đại từ","Cái khác, thứ khác","我不要别的。","Wǒ bú yào biéde.","Tôi không lấy cái khác.","bie"],
+["橘子","júzi","Danh từ","Quýt","我买橘子。","Wǒ mǎi júzi.","Tôi mua quýt.","orange"],
+["怎么","zěnme","Đại từ","Thế nào, như thế nào","橘子怎么卖？","Júzi zěnme mài?","Quýt bán thế nào?","zen"],
+["卖","mài","Động từ","Bán","这儿卖水果。","Zhèr mài shuǐguǒ.","Ở đây bán trái cây.","mai"],
+["两","liǎng","Số từ","Hai","我买两斤。","Wǒ mǎi liǎng jīn.","Tôi mua hai cân.","liang"],
+["一共","yígòng","Phó từ","Tổng cộng, tất cả","一共五块。","Yígòng wǔ kuài.","Tổng cộng năm đồng.","gong"],
+["给","gěi","Động từ","Đưa, trao, cho","给你钱。","Gěi nǐ qián.","Đưa tiền cho bạn.","gei"],
+["找","zhǎo","Động từ","Tìm; thối tiền","找你三块。","Zhǎo nǐ sān kuài.","Thối lại bạn ba đồng.","zhao"]];
+const sv=k=>`<svg viewBox="0 0 100 100">${S[k]}</svg>`;
+const D=[
+["A",[["你","nǐ"],["买","mǎi",1],["什么？","shénme?"]],"Bạn mua gì?"],
+["B",[["我买","wǒ mǎi"],["水果","shuǐguǒ",1],["。","."],["苹果","píngguǒ",1],["一斤多少钱？","yì jīn duōshao qián?"]],"Tôi mua trái cây. Một cân táo giá bao nhiêu tiền?"],
+["A",[["三块","sān kuài",1],["。","."]],"Ba đồng."],
+["B",[["三块？","sān kuài?"],["太贵了","tài guì le",1],["。","."],["两块五","liǎng kuài wǔ",1],["吧。","ba."]],"Ba đồng á? Đắt quá. Hai đồng rưỡi nhé."],
+["A",[["你要","nǐ yào"],["几斤","jǐ jīn",1],["？","?"]],"Bạn muốn mua mấy cân?"],
+["B",[["我买","wǒ mǎi"],["五斤","wǔ jīn",1],["。","."]],"Tôi mua năm cân."],
+["A",[["还要","hái yào"],["别的","biéde",1],["吗？","ma?"]],"Bạn còn muốn mua gì khác không?"],
+["B",[["橘子","júzi",1],["怎么卖","zěnme mài",1],["？","?"]],"Quýt bán thế nào?"],
+["A",[["两块","liǎng kuài",1],["。","."]],"Hai đồng."],
+["B",[["要","yào"],["两斤","liǎng jīn",1],["。","."],["一共","yígòng",1],["多少钱？","duōshao qián?"]],"Tôi lấy hai cân. Tổng cộng bao nhiêu tiền?"],
+["A",[["一共","yígòng"],["十六块五","shíliù kuài wǔ",1],["（毛）","(máo)"],["。","."],["你","nǐ"],["给","gěi",1],["十六块","shíliù kuài",1],["吧。","ba."]],"Tổng cộng 16 đồng 5 hào. Bạn trả 16 đồng thôi nhé."],
+["B",[["给","gěi",1],["你钱。","nǐ qián."]],"Đưa tiền cho bạn đây."],
+["A",[["这是五十，","zhè shì wǔshí,"],["找","zhǎo",1],["您","nín"],["三十四块","sānshísì kuài",1],["。","."]],"Đây là 50 đồng, trả lại bạn 34 đồng."]];
+const bub=(d,body)=>`<div class="row ${d[0]=='B'?'R':''}"><div class=av>${d[0]}</div><div class=b><span onclick="say('${Z(d[1])}')" style="cursor:pointer">🔊</span>${body}<div class=vi>${d[2]}</div></div></div>`;
+const p1=()=>`<h2>${T("练习")} 1 · Hội thoại có chỗ trống</h2><p class=vi>Thay ___ bằng trái cây và giá tiền của em rồi đọc cùng bạn.</p><button class=s onclick="rv=!rv;r()">${rv?"Ẩn":"Hiện"} đáp án gốc</button><div style="width:100%">${D.map(d=>bub(d,`<div class=z>${d[1].map(x=>x[2]?`<span class=slot>${rv?T(x[0]):"＿＿＿"}</span>`:T(x[0])).join("")}</div><div class=p>${P(d[1].map(x=>x[2]&&!rv?["","___"]:x))}</div>`)).join("")}</div>`;
+// ===== Khởi động =====
+const price=[["¥3","三块","sān kuài"],["¥2.5","两块五","liǎng kuài wǔ"],["¥16.5","十六块五","shíliù kuài wǔ"],["¥34","三十四块","sānshísì kuài"],["¥50","五十块","wǔshí kuài"],["¥0.5","五毛","wǔ máo"],["¥12","十二块","shí'èr kuài"],["¥8.8","八块八","bā kuài bā"],["¥20","二十块","èrshí kuài"],["¥6","六块","liù kuài"]];
+const phr=[["Đắt quá!","太贵了！","Tài guì le!"],["Hỏi: Một cân bao nhiêu tiền?","一斤多少钱？","Yì jīn duōshao qián?"],["Hỏi: Tổng cộng bao nhiêu tiền?","一共多少钱？","Yígòng duōshao qián?"],["Hỏi: Bán thế nào?","怎么卖？","Zěnme mài?"],["Hỏi: Bạn còn muốn gì khác không?","还要别的吗？","Hái yào biéde ma?"],["Đưa tiền cho bạn đây.","给你钱。","Gěi nǐ qián."]];
+const cards=()=>shuf([[S.apple,"苹果","píngguǒ","Táo"],[S.orange,"橘子","júzi","Quýt"],[S.fruit,"水果","shuǐguǒ","Trái cây"]].map(c=>({f:`<svg viewBox="0 0 100 100">${c[0]}</svg><div class=vi>Nói bằng tiếng Trung!</div>`,zh:c[1],py:c[2],vi:c[3]})).concat(price.map(c=>({f:`<div class=big>${c[0]}</div><div class=vi>Đọc giá tiền bằng tiếng Trung!</div>`,zh:c[1],py:c[2],vi:"Giá tiền"})),phr.map(c=>({f:`<div class=big style="font-size:38px">${c[0]}</div><div class=vi>Nói bằng tiếng Trung!</div>`,zh:c[1],py:c[2],vi:c[0]})))).slice(0,12);
+let w,tmr;const stp=()=>clearInterval(tmr),nw=()=>{stp();w={q:cards(),k:0,rev:0,t:10}};nw();
+const st=()=>{stp();w.t=10;r();tmr=setInterval(()=>{w.t--;const e=document.getElementById("tm");if(e)e.textContent=w.t;if(w.t<=0)stp()},1000)};
+const wu=()=>{if(w.k>=w.q.length)return `<h2>🏆 Hoàn thành!</h2><h3>Cả lớp giỏi lắm! 🌟</h3><button onclick="nw();r()">Chơi lại</button>`;
+const c=w.q[w.k];return `<h2>🎲 Khởi động · 买买买 · ${w.k+1}/${w.q.length}</h2>
+<div class="card stage">${c.f}<div id=tm>${w.t}</div></div>${w.rev?`<div class="card ans">${z(c.zh,c.py)}<div class=vi>${c.vi} ${sp(c.zh)}</div></div>`:""}
+<div><button class=g onclick="st()">▶ 10 giây</button><button class=s onclick="w.rev=1;r()">Đáp án</button><button onclick="stp();w.k++;w.rev=0;w.t=10;r()">Tiếp ▶</button></div>`};
+// ===== Cấu trúc =====
+const X=[["买 + đồ vật","买水果。","Mǎi shuǐguǒ.","Mua trái cây."],["Hỏi giá một cân","一斤多少钱？","Yì jīn duōshao qián?","Một cân giá bao nhiêu tiền?"],["太 + tính từ + 了","太贵了！","Tài guì le!","Đắt quá!"],["还要……吗？","还要别的吗？","Hái yào biéde ma?","Còn muốn gì nữa không?"],["怎么卖？","橘子怎么卖？","Júzi zěnme mài?","Bán thế nào?"],["Hỏi tổng tiền","一共多少钱？","Yígòng duōshao qián?","Tổng cộng bao nhiêu tiền?"],["找你……块","找您三十四块。","Zhǎo nín sānshísì kuài.","Thối lại bạn 34 đồng."]];
+const str=()=>`<h2>${T("语法")} · Cấu trúc cần nhớ</h2><div class=sty>${X.map(x=>`<div class=card><b style="color:var(--c)">${x[0]}</b>${z(x[1],x[2])}<div class=vi>${x[3]} ${sp(x[1])}</div></div>`).join("")}</div><div class="card ans" style="text-align:left">📌 1 斤 = 500 g; 1 公斤 = 1 kg. Khi nói giá, 块 thay cho 元 và 毛 thay cho 角 trong khẩu ngữ. Số 2 đứng trước lượng từ đọc là <b>两</b> (两斤, 两块).</div>`;
+// ===== Luyện tập 2: đặt câu =====
+const P2=[["买","mǎi","Mua","我买三斤橘子。","Wǒ mǎi sān jīn júzi.","Tôi mua ba cân quýt."],["苹果","píngguǒ","Táo","我要两斤苹果。","Wǒ yào liǎng jīn píngguǒ.","Tôi lấy hai cân táo."],["贵","guì","Đắt","这个太贵了，我不买。","Zhège tài guì le, wǒ bù mǎi.","Cái này đắt quá, tôi không mua."],["吧","ba","Nhé (đề nghị)","三块吧。","Sān kuài ba.","Ba đồng nhé."],["多少","duōshao","Bao nhiêu","橘子多少钱一斤？","Júzi duōshao qián yì jīn?","Quýt bao nhiêu tiền một cân?"],["还","hái","Còn, thêm","我还要两斤橘子。","Wǒ hái yào liǎng jīn júzi.","Tôi còn muốn hai cân quýt."],["别的","biéde","Cái khác","我还要别的水果。","Wǒ hái yào biéde shuǐguǒ.","Tôi còn muốn trái cây khác."],["怎么","zěnme","Thế nào","苹果怎么卖？","Píngguǒ zěnme mài?","Táo bán thế nào?"],["卖","mài","Bán","你卖水果吗？","Nǐ mài shuǐguǒ ma?","Bạn bán trái cây không?"],["两","liǎng","Hai","苹果两块，橘子两块五。","Píngguǒ liǎng kuài, júzi liǎng kuài wǔ.","Táo hai đồng, quýt hai đồng rưỡi."],["一共","yígòng","Tổng cộng","一共三十块。","Yígòng sānshí kuài.","Tổng cộng ba mươi đồng."],["给","gěi","Đưa, cho","我给你五十块。","Wǒ gěi nǐ wǔshí kuài.","Tôi đưa bạn năm mươi đồng."],["找","zhǎo","Thối tiền","找你二十块。","Zhǎo nǐ èrshí kuài.","Thối lại bạn hai mươi đồng."]];
+let sn=P2.map(()=>""),sr=P2.map(()=>0);
+const p2=()=>`<h2>${T("练习")} 2 · Đặt câu với từ cho sẵn</h2><p class=vi>Viết một câu có chứa từ đã cho (có thể đọc to với bạn), rồi bấm "Hiện đáp án" để xem câu mẫu.</p>${P2.map((it,n)=>`<div class=card style="text-align:left"><div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><div style="min-width:140px;text-align:center">${z(it[0],it[1])}<div class=vi>${it[2]}</div></div><textarea rows=2 class=hw style="flex:1;min-width:220px" oninput="sn[${n}]=this.value" placeholder="Viết câu của em...">${sn[n].replace(/</g,"&lt;")}</textarea></div>${sr[n]?`<div class=ans>${z(it[3],it[4])}<div class=vi>${it[5]} ${sp(it[3])}</div></div><button class=s onclick="sr[${n}]=0;r()">Ẩn</button>`:`<button class=s onclick="sr[${n}]=1;r()">Hiện đáp án</button>`}</div>`).join("")}`;
+// ===== Luyện tập 3: kéo thả =====
+const I3=[
+["你[买][什么]？我买[水果]。","nǐ [mǎi] [shénme]? wǒ mǎi [shuǐguǒ]."],
+["[苹果][一斤][多少钱]？","[píngguǒ] [yì jīn] [duōshao qián]?"],
+["[三块]？[太][贵][了]。","[sān kuài]? [tài] [guì] [le]."],
+["[两块五][吧]，你要[几斤]？","[liǎng kuài wǔ] [ba], nǐ yào [jǐ jīn]?"],
+["我[买][五斤]，[还]要[别的]吗？","wǒ [mǎi] [wǔ jīn], [hái] yào [biéde] ma?"],
+["[橘子][怎么][卖]？[两块]。","[júzi] [zěnme] [mài]? [liǎng kuài]."],
+["我要[两斤]，[一共][多少钱]？","wǒ yào [liǎng jīn], [yígòng] [duōshao qián]?"],
+["[一共][十六块五]，你[给][十六块][吧]。","[yígòng] [shíliù kuài wǔ], nǐ [gěi] [shíliù kuài] [ba]."],
+["[给]你[钱]。这是[五十]，[找]您[三十四块]。","[gěi] nǐ [qián]. zhè shì [wǔshí], [zhǎo] nín [sānshísì kuài]."],
+["你[买][几斤][苹果]？我[买][三斤]。","nǐ [mǎi] [jǐ jīn] [píngguǒ]? wǒ [mǎi] [sān jīn]."]];
+const pz=s=>s.split(/\[|\]/),bl=s=>pz(s).filter((_,k)=>k%2),W3=I3.map(x=>bl(x[0])),PW=I3.map(x=>bl(x[1]));
+let p3;const i3=()=>p3={pl:W3.map(w=>w.map(()=>-1)),sh:W3.map(w=>shuf(w.map((_,k)=>k))),sel:null,ck:W3.map(()=>0)};i3();
+const good=(q,b)=>{const x=p3.pl[q][b];return x>=0&&W3[q][x]==W3[q][b]},solved=q=>p3.ck[q]&&W3[q].every((_,b)=>good(q,b));
+const put=(q,b,ix)=>{if(solved(q))return;p3.pl[q]=p3.pl[q].map(x=>x==ix?-1:x);p3.pl[q][b]=ix;p3.ck[q]=0};
+const dr=(e,q,b)=>{e.preventDefault();const[qq,ix]=e.dataTransfer.getData("text").split(",").map(Number);if(qq==q){put(q,b,ix);r()}};
+const cs=(q,ix)=>{p3.sel={q,ix};r()};
+const bk=(q,b)=>{if(solved(q))return;if(p3.sel&&p3.sel.q==q){put(q,b,p3.sel.ix);p3.sel=null}else{p3.pl[q][b]=-1;p3.ck[q]=0}r()};
+const ck=q=>{if(p3.pl[q].includes(-1)){alert("Hãy điền hết các ô trống!");return}p3.ck[q]=1;r()};
+const p3f=()=>{const sc=I3.filter((_,q)=>solved(q)).length;const rows=I3.map((it,q)=>{let b=0;const parts=pz(it[0]).map((t,k)=>{if(k%2==0)return T(t);const x=p3.pl[q][b],cur=b++;return `<span class="slot drop ${p3.ck[q]?(good(q,cur)?'ok':'no'):''}" ondragover="event.preventDefault()" ondrop="dr(event,${q},${cur})" onclick="bk(${q},${cur})">${x>=0?T(W3[q][x]):"＿＿＿"}</span>`}).join("");
+const used=p3.pl[q];return `<div class=card><div class=z>${parts}</div>${solved(q)?`<div class=p>${P([["",pz(it[1]).join("")]])}</div>${sp(pz(it[0]).join(""))} ✅`:`<div class=chips>${p3.sh[q].filter(ix=>!used.includes(ix)).map(ix=>`<div class="chip ${p3.sel&&p3.sel.q==q&&p3.sel.ix==ix?'on':''}" draggable=true ondragstart="event.dataTransfer.setData('text','${q},${ix}')" onclick="cs(${q},${ix})">${z(W3[q][ix],PW[q][ix])}</div>`).join("")}</div><button onclick="ck(${q})">Kiểm tra</button>${p3.ck[q]?' <span style="color:#c0392b">❌ Chưa đúng, bấm ô đỏ để bỏ từ rồi chọn lại.</span>':''}`}</div>`}).join("");
+return `<h2>${T("练习")} 3 · Kéo thả từ vào chỗ trống</h2><p class=vi>Kéo (hoặc bấm chọn từ rồi bấm vào ô trống). Điền xong bấm "Kiểm tra" ở từng câu.</p>${rows}<h3>Đúng ${sc}/${I3.length} câu</h3><button class=s onclick="i3();r()">Làm lại</button>`};
+// ===== Bài tập về nhà =====
+const H=[["Bạn mua gì?","你买什么？","Nǐ mǎi shénme?"],["Tôi mua trái cây.","我买水果。","Wǒ mǎi shuǐguǒ."],["Một cân táo giá bao nhiêu tiền?","苹果一斤多少钱？","Píngguǒ yì jīn duōshao qián?"],["Ba đồng một cân, không đắt.","一斤三块，不贵。","Yì jīn sān kuài, bú guì."],["Đắt quá! Hai đồng rưỡi nhé.","太贵了！两块五吧。","Tài guì le! Liǎng kuài wǔ ba."],["Quýt bán thế nào?","橘子怎么卖？","Júzi zěnme mài?"],["Tôi mua hai cân quýt, không mua cái khác.","我买两斤橘子，不买别的。","Wǒ mǎi liǎng jīn júzi, bù mǎi biéde."],["Bạn muốn mấy cân?","你要几斤？","Nǐ yào jǐ jīn?"],["Tổng cộng bao nhiêu tiền?","一共多少钱？","Yígòng duōshao qián?"],["Đây là 50 đồng, trả lại bạn 34 đồng.","这是五十，找您三十四块。","Zhè shì wǔshí, zhǎo nín sānshísì kuài."]];
+let hw=H.map(()=>""),hs=0;const nm=s=>N(s.replace(/[\s，。？！,.?!]/g,""));
+const hwf=()=>`<h2>📝 Bài tập về nhà: dịch sang tiếng Trung</h2><p class=vi>Điền đủ 10 câu rồi bấm Nộp bài thì đáp án mới hiện.</p><div style="width:100%">${H.map((h,n)=>`<div class=card style="text-align:left"><b>${n+1}.</b> ${h[0]}<input class=hw ${hs?"disabled":""} value="${hw[n].replace(/"/g,"&quot;")}" oninput="hw[${n}]=this.value">${hs?`<div class=ans>${nm(hw[n])==nm(h[1])?"✅ Đúng":"❌ Chưa khớp đáp án mẫu"} ${sp(h[1])}${z(h[1],h[2])}</div>`:""}</div>`).join("")}</div>${hs?'<button class=s onclick="hw=H.map(()=>\'\');hs=0;r()">Làm lại</button>':'<button onclick="if(hw.some(x=>!x.trim()))alert(\'Hãy điền đủ 10 câu trước khi nộp!\');else{hs=1;r()}">Nộp bài</button>'}`;
+// ===== Trò chơi từ vựng (hữu hạn) =====
+let g;const mk=()=>{const a=g.q[g.k];if(a==null)return;let o=[a];while(o.length<4){const k=Math.random()*V.length|0;if(!o.includes(k))o.push(k)}g.o=shuf(o);g.d=null},ng=()=>{g={q:shuf([...V.keys()]),k:0,s:0,d:null};mk()};ng();
+const pick=j=>{if(g.d!=null)return;g.d=j;if(g.o[j]==g.q[g.k])g.s++;r()};
+const game=()=>{if(g.k>=V.length)return `<h2>🏁 Kết thúc! Điểm: ${g.s}/${V.length}</h2><button onclick="ng();r()">Chơi lại</button>`;const a=V[g.q[g.k]];
+return `<h2>🎮 Đoán từ ${g.k+1}/${V.length} · Điểm: ${g.s}</h2><div class=card><div class=art style="margin:auto">${sv(a[7])}</div><div class=vi>${a[3]} ${sp(a[0].split("（")[0])}</div></div><div class=chips>${g.o.map((k,j)=>`<div class="chip ${g.d!=null?(k==g.q[g.k]?'ok':j==g.d?'no':''):''}" onclick="pick(${j})">${z(V[k][0],V[k][1])}</div>`).join("")}</div>${g.d!=null?'<button onclick="g.k++;mk();r()">Tiếp ▶</button>':''}`};
+// ===== Lắp slide =====
+const sl=[],fl=[];const add=(f,t)=>{sl.push(f);fl.push(t||0)};
+add(()=>`<h1>${T("第八课")}</h1><div class=z style="font-size:50px">${T("你买什么")}</div><div class=p>Dì bā kè · Nǐ mǎi shénme</div><div class=chips>${["fruit","apple","orange","kuai"].map(k=>`<div class=art style="width:140px;height:140px"><svg viewBox="0 0 100 100" style="width:110px;height:110px">${S[k]}</svg></div>`).join("")}</div><p class=vi>Bài 8: Bạn mua gì?<br>Khởi động · 课文 · 练习 · 生词 · Trò chơi · Bài tập về nhà</p>`);
+add(wu);
+add(()=>`<h2>${T("课文")} · Video</h2><iframe src="https://www.youtube.com/embed/AH7JAvOlNoA" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe><a class=btn target=_blank rel=noopener href="https://www.youtube.com/watch?v=AH7JAvOlNoA">▶ Mở video trên YouTube</a><p class=vi>Nếu khung video báo lỗi 153 (thường do mở file trực tiếp từ ổ đĩa), hãy dùng nút trên hoặc chạy file qua http://localhost.</p>`);
+D.forEach((_,n)=>add(()=>`<h2>${T("课文")} ${n+1}/${D.length}</h2><div style="width:100%">${D.slice(0,n+1).map(d=>bub(d,z(Z(d[1]),P(d[1])))).join("")}</div>`,2));
+add(p1,1);
+V.forEach((v,n)=>add(()=>`<h2>${T("生词")} ${n+1}/${V.length}</h2><div class="card vc"><div class=art>${sv(v[7])}</div><div>${z(v[0],v[1])}<span class=tag>${v[2]}</span><div class=mean>${v[3]} ${sp(v[0].split("（")[0])}</div><div class=ex>${z(v[4],v[5])}<div class=vi>${v[6]} ${sp(v[4])}</div></div></div></div>`));
+add(game);add(str,1);add(p2,1);add(p3f,1);add(hwf,1);
+const go=d=>{i=Math.max(0,Math.min(sl.length-1,i+d));r()};
+function r(){speechSynthesis.cancel();const st=s.scrollTop,ch=i!=li;if(ch)stp();s.innerHTML=`<div class="w ${fl[i]?'tp':''} ${ch?'in':''}">${sl[i]()}</div>`;s.scrollTop=ch?(fl[i]==2?s.scrollHeight:0):st;li=i;
+document.querySelector("#prog i").style.width=(i+1)/sl.length*100+"%";pv.disabled=!i;nx.disabled=i==sl.length-1;tb.textContent=trad?"繁 → 简":"简 → 繁"}
+onkeydown=e=>{if(["INPUT","TEXTAREA"].includes(e.target.tagName))return;if(e.key=="ArrowRight")go(1);if(e.key=="ArrowLeft")go(-1)};r();
+</script></body></html>
